@@ -1,6 +1,7 @@
 {
   "name": "faux-server",
-  "version": "0.1.0",
+  "author": "Storcery",
+  "version": "0.2.0",
   "description": "Intercept requests to RESTful endpoints and replace them with requests against the client store.",
   "keywords": [
     "mock",
@@ -19,7 +20,6 @@
     "test": "mocha test.js",
     "debug": "mocha debug test.js"
   },
-  "author": "Storcery",
   "license": "MIT",
   "dependencies": {
     "faux-jax": "^4.2.2",
