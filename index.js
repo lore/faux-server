@@ -3,6 +3,8 @@ var uuid = require('uuid');
 var merge = require('lodash.merge');
 var fauxJax = require('faux-jax');
 
+var qs = require('qs');
+
 module.exports = function(options) {
   options = options || {};
   options.delay = options.delay || 0;
@@ -17,9 +19,12 @@ module.exports = function(options) {
       return;
     }
 
-    var url = request.requestURL;
+    var urlPieces = request.requestURL.split('?');
+    var url = urlPieces[0];
     var method = request.requestMethod.toLowerCase();
     var jsonBody = JSON.parse(request.requestBody);
+
+    var queryParams = qs.parse(urlPieces[1]);
 
     var respond = request.respond;
     request.respond = function(/* arguments */) {
@@ -67,7 +72,22 @@ module.exports = function(options) {
 
       } else {
 
-        return request.respond(200, { 'Content-Type': 'application/json' }, JSON.stringify(response));
+        if(Object.keys(queryParams).length > 0) {
+          var filteredResponse = response.filter(function(item) {
+            var keep = true;
+            Object.keys(queryParams).forEach(function(query) {
+              if(item[query].toString() !== queryParams[query]) {
+                keep = false;
+              }
+            });
+            return keep;
+          });
+
+          return request.respond(200, { 'Content-Type': 'application/json' }, JSON.stringify(filteredResponse));
+
+        } else {
+          return request.respond(200, { 'Content-Type': 'application/json' }, JSON.stringify(response));
+        }
 
       }
 
