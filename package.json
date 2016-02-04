@@ -1,7 +1,7 @@
 {
   "name": "faux-server",
   "author": "Storcery",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Intercept requests to RESTful endpoints and replace them with requests against the client store.",
   "keywords": [
     "mock",
