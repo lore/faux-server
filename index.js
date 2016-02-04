@@ -22,7 +22,9 @@ module.exports = function(options) {
     var urlPieces = request.requestURL.split('?');
     var url = urlPieces[0];
     var method = request.requestMethod.toLowerCase();
-    var jsonBody = JSON.parse(request.requestBody);
+    var jsonBody = request.requestBody 
+	? JSON.parse(request.requestBody)
+	: {};
 
     var queryParams = qs.parse(urlPieces[1]);
 
